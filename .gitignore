@@ -1,1 +1,43 @@
-commit_script.sh
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+venv/
+ENV/
+env/
+.venv
+.Python
+
+# Django
+*.sqlite3
+*.db
+.DS_Store
+local_settings.py
+/staticfiles/
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+dist/
+build/
+.env
+.env.local
+.env.*.local
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.sublime-*
+
+# OS
+.DS_Store
+Thumbs.db
