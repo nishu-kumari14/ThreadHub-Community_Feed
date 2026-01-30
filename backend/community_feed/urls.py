@@ -1,12 +1,7 @@
 from django.contrib import admin
 from django.urls import include, path
 from django.http import JsonResponse
-from django.views.decorators.http import require_http_methods
 
-@require_http_methods(["GET"])
-def root_view(request):
-    """Root API endpoint with welcome message"""
-    return JsonResponse({
         "message": "Welcome to ThreadHub API",
         "version": "1.0.0",
         "endpoints": {
