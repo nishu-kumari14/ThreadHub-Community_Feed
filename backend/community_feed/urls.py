@@ -2,6 +2,9 @@ from django.contrib import admin
 from django.urls import include, path
 from django.http import JsonResponse
 
+
+def root_view(request):
+    return JsonResponse({
         "message": "Welcome to ThreadHub API",
         "version": "1.0.0",
         "endpoints": {
@@ -12,6 +15,7 @@ from django.http import JsonResponse
             "leaderboard": "/api/leaderboard/"
         }
     })
+
 
 urlpatterns = [
     path("", root_view, name="root"),
