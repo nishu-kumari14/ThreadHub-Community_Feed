@@ -2,14 +2,6 @@ run = "cd backend && python manage.py migrate && python manage.py runserver 0.0.
 
 [env]
 PYTHONUNBUFFERED = "1"
-DEBUG = "True"
 
 [packager]
 language = "python3"
-ignoredPaths = ["frontend", "node_modules"]
-
-[packager.features]
-enableGuessImports = true
-
-[nix]
-channel = "stable-23_05"
