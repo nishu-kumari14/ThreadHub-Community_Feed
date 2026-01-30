@@ -2,28 +2,24 @@
 
 A full-stack Django + React application featuring threaded discussions and a real-time karma-based leaderboard.
 
-## 🚀 Quick Deploy to Railway
-
-Click to deploy your own instance:
-
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new)
-
-**Or follow the [Railway Deployment Guide](./RAILWAY_DEPLOYMENT.md)**
+**Live Demo**: https://thread-hub-community-feed--nishusinghrajpu.replit.dev/
 
 ## Overview
 Full-stack application implementing a threaded community feed with karma-based leaderboard (last 24 hours) using Django/DRF + React/Vite/Tailwind.
 
 ### Key Features
 - **Threaded Comments**: Nested reply system like Reddit
-- **Karma System**: +5 karma for post likes, +1 for comment likes
+- **Karma System**: +5 karma for comments on your posts, +5 for post likes, +1 for comment likes
 - **Dynamic Leaderboard**: Top 5 users based on 24-hour karma
 - **Full Error Handling**: Comprehensive error management throughout
-- **CORS Support**: Proper cross-origin configuration
+- **CORS Support**: Proper cross-origin configuration (security hardened)
 - **Mobile Responsive**: Works on all devices
 
-### 🐛 Bug Fixes
-- ✅ Comment karma feature (post authors get +5 when receiving comments)
+### 🐛 Bug Fixes Implemented
+- ✅ Comment karma feature (+5 to post authors when receiving comments)
 - ✅ CORS preflight headers fixed (removed blocking cache headers)
+- ✅ CORS_ALLOW_ALL_ORIGINS security hardened (specific origins only)
+- ✅ Missing root_view function definition added
 - ✅ Error handling improvements (try-catch throughout app)
 
 ## Backend (Django)
@@ -49,6 +45,8 @@ npm run dev
 ```
 
 Frontend runs at `http://localhost:5173`, calls `http://localhost:8000/api`.
+
+Set the environment variable:
 ```bash
 VITE_API_BASE=http://localhost:8000/api
 ```
@@ -57,8 +55,10 @@ VITE_API_BASE=http://localhost:8000/api
 - Create users via the top-right form.
 - Select a user to post, comment, or like.
 - Likes grant karma to the post/comment author.
+- Comments on your posts grant you +5 karma.
 - Leaderboard shows last 24 hours only.
 
 ## Notes
 - SQLite is used by default. Swap to PostgreSQL in `backend/community_feed/settings.py` if desired.
 - Comment tree is built server-side from a single query for the post.
+- For production, set `DEBUG=False` and a strong `SECRET_KEY` in environment variables.
