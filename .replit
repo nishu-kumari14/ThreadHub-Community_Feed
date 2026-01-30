@@ -4,7 +4,4 @@ run = "cd backend && python manage.py migrate && python manage.py runserver 0.0.
 PYTHONUNBUFFERED = "1"
 
 [packager]
-language = "python3"ignoredPaths = ["frontend", "node_modules", "frontend/node_modules"]
-
-[build]
-excludePatterns = ["frontend", "**/*.js", "**/package.json"]
+language = "python3"
