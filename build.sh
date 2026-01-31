@@ -12,6 +12,7 @@ echo "=== Python version: $(python --version) ==="
 
 echo ""
 echo "=== Installing Python dependencies ==="
+export UV_LINK_MODE=copy
 if ! uv pip install --system -r requirements.txt 2>&1; then 
   echo "ERROR: Failed to install Python dependencies"
   exit 1
@@ -38,10 +39,16 @@ fi
 cd "$SCRIPT_DIR"
 
 echo ""
-echo "=== Django setup (if DATABASE_URL is set) ==="
+echo "=== Django setup (if database env is set) ==="
 echo "DATABASE_URL length: ${#DATABASE_URL}"
-if [ -n "$DATABASE_URL" ]; then
-  echo "✓ DATABASE_URL is set, running migrations..."
+echo "POSTGRES_URL length: ${#POSTGRES_URL}"
+echo "POSTGRES_PRISMA_URL length: ${#POSTGRES_PRISMA_URL}"
+echo "POSTGRES_URL_NON_POOLING length: ${#POSTGRES_URL_NON_POOLING}"
+
+DB_URL=${DATABASE_URL:-${POSTGRES_URL:-${POSTGRES_PRISMA_URL:-$POSTGRES_URL_NON_POOLING}}}
+
+if [ -n "$DB_URL" ]; then
+  echo "✓ Database URL detected, running migrations..."
   cd backend
   if ! python manage.py migrate --noinput 2>&1; then
     echo "WARNING: Migration failed, but continuing build"
@@ -50,7 +57,8 @@ if [ -n "$DATABASE_URL" ]; then
     echo "WARNING: Collectstatic failed, but continuing build"
   fi
 else
-  echo "✗ WARNING: DATABASE_URL not set! App will use SQLite."
+  echo "✗ ERROR: No database URL env detected. Configure DATABASE_URL (or POSTGRES_URL) in Vercel."
+  exit 1
 fi
   cd "$SCRIPT_DIR"
 else
