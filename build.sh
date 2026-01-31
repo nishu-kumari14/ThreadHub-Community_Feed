@@ -5,25 +5,54 @@ set -e
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "$SCRIPT_DIR"
 
-echo "=== Installing Python dependencies ==="
-uv pip install --system -r requirements.txt 2>&1 || { echo "Failed to install Python deps"; exit 1; }
+echo "=== Current directory: $SCRIPT_DIR ==="
+echo "=== Node version: $(node --version) ==="
+echo "=== npm version: $(npm --version) ==="
+echo "=== Python version: $(python --version) ==="
 
+echo ""
+echo "=== Installing Python dependencies ==="
+if ! uv pip install --system -r requirements.txt 2>&1; then 
+  echo "ERROR: Failed to install Python dependencies"
+  exit 1
+fi
+
+echo ""
 echo "=== Building frontend ==="
 cd frontend
 if [ ! -d "node_modules" ]; then
-  npm install --legacy-peer-deps 2>&1 || { echo "Failed to install npm deps"; exit 1; }
+  echo "Installing npm dependencies..."
+  if ! npm install --legacy-peer-deps 2>&1; then
+    echo "ERROR: Failed to install npm dependencies"
+    exit 1
+  fi
+else
+  echo "node_modules exists, skipping npm install"
 fi
-npm run build 2>&1 || { echo "Failed to build frontend"; exit 1; }
+
+echo "Running build..."
+if ! npm run build 2>&1; then
+  echo "ERROR: Frontend build failed"
+  exit 1
+fi
 cd "$SCRIPT_DIR"
 
-echo "=== Running Django migrations (if DATABASE_URL set) ==="
+echo ""
+echo "=== Django setup (if DATABASE_URL is set) ==="
 if [ -n "$DATABASE_URL" ]; then
+  echo "DATABASE_URL detected, running migrations..."
   cd backend
-  python manage.py migrate --noinput 2>&1 || { echo "Warning: Migration failed, but continuing"; }
-  python manage.py collectstatic --noinput 2>&1 || { echo "Warning: Collectstatic failed, but continuing"; }
+  if ! python manage.py migrate --noinput 2>&1; then
+    echo "WARNING: Migration failed, but continuing build"
+  fi
+  if ! python manage.py collectstatic --noinput 2>&1; then
+    echo "WARNING: Collectstatic failed, but continuing build"
+  fi
   cd "$SCRIPT_DIR"
 else
-  echo "Skipping migrations: DATABASE_URL not set"
+  echo "DATABASE_URL not set, skipping migrations"
 fi
 
-echo "=== Build completed successfully! ==="
+echo ""
+echo "=== Build completed successfully! ===
+
