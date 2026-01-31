@@ -1,21 +1,21 @@
 #!/bin/bash
 set -e
 
-echo "Installing backend dependencies..."
-pip install -r requirements.txt
+echo "Installing Python dependencies..."
+uv pip install --system -r requirements.txt
 
 echo "Running Django migrations..."
 cd backend
 python manage.py migrate --noinput
-
-echo "Collecting static files..."
 python manage.py collectstatic --noinput
-
 cd ..
 
-echo "Building frontend..."
+echo "Installing Node dependencies..."
 cd frontend
 npm install
+
+echo "Building frontend..."
 npm run build
+cd ..
 
 echo "Build completed successfully!"
