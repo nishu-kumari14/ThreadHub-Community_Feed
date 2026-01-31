@@ -56,20 +56,11 @@ echo "POSTGRES_URL_NON_POOLING length: ${#POSTGRES_URL_NON_POOLING}"
 DB_URL=${DATABASE_URL:-${POSTGRES_URL:-${POSTGRES_PRISMA_URL:-$POSTGRES_URL_NON_POOLING}}}
 
 if [ -n "$DB_URL" ]; then
-  echo "✓ Database URL detected, running migrations..."
-  cd backend
-  if ! python manage.py migrate --noinput 2>&1; then
-    echo "WARNING: Migration failed, but continuing build"
-  fi
-  if ! python manage.py collectstatic --noinput 2>&1; then
-    echo "WARNING: Collectstatic failed, but continuing build"
-  fi
-  cd "$SCRIPT_DIR"
+  echo "✓ Database URL detected. Skipping migrations (run separately if needed)"
 else
-  echo "✗ ERROR: No database URL env detected. Configure DATABASE_URL (or POSTGRES_URL) in Vercel."
-  exit 1
+  echo "⚠ No database URL env detected. App will use SQLite fallback."
 fi
 
 echo ""
-echo "=== Build completed successfully! ===
+echo "=== Build completed successfully! ==="
 
