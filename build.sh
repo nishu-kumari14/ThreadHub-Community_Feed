@@ -39,8 +39,9 @@ cd "$SCRIPT_DIR"
 
 echo ""
 echo "=== Django setup (if DATABASE_URL is set) ==="
+echo "DATABASE_URL length: ${#DATABASE_URL}"
 if [ -n "$DATABASE_URL" ]; then
-  echo "DATABASE_URL detected, running migrations..."
+  echo "✓ DATABASE_URL is set, running migrations..."
   cd backend
   if ! python manage.py migrate --noinput 2>&1; then
     echo "WARNING: Migration failed, but continuing build"
@@ -48,6 +49,9 @@ if [ -n "$DATABASE_URL" ]; then
   if ! python manage.py collectstatic --noinput 2>&1; then
     echo "WARNING: Collectstatic failed, but continuing build"
   fi
+else
+  echo "✗ WARNING: DATABASE_URL not set! App will use SQLite."
+fi
   cd "$SCRIPT_DIR"
 else
   echo "DATABASE_URL not set, skipping migrations"

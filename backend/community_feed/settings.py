@@ -3,7 +3,9 @@ import os
 from dotenv import load_dotenv
 import dj_database_url
 
-load_dotenv()
+# Only load .env file in development (when .env exists)
+if os.path.exists(os.path.join(os.path.dirname(__file__), '../../.env')):
+    load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
