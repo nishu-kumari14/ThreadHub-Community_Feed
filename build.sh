@@ -64,13 +64,10 @@ if [ -n "$DB_URL" ]; then
   if ! python manage.py collectstatic --noinput 2>&1; then
     echo "WARNING: Collectstatic failed, but continuing build"
   fi
+  cd "$SCRIPT_DIR"
 else
   echo "✗ ERROR: No database URL env detected. Configure DATABASE_URL (or POSTGRES_URL) in Vercel."
   exit 1
-fi
-  cd "$SCRIPT_DIR"
-else
-  echo "DATABASE_URL not set, skipping migrations"
 fi
 
 echo ""
