@@ -8,7 +8,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-key-change-in-production")
 DEBUG = os.getenv("DEBUG", "True") == "True"
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1,*.replit.dev,*.pike.replit.dev").split(",")
+ALLOWED_HOSTS = os.getenv(
+    "ALLOWED_HOSTS",
+    "localhost,127.0.0.1,*.replit.dev,*.pike.replit.dev,.vercel.app",
+).split(",")
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -95,8 +98,12 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # CORS Configuration - Only allow specific origins
 CORS_ALLOWED_ORIGINS = os.getenv(
     "CORS_ALLOWED_ORIGINS",
-    "http://localhost:3000,http://localhost:5173,http://127.0.0.1:5173,https://thread-hub-community-feed--nishusinghrajpu.replit.dev"
+    "http://localhost:3000,http://localhost:5173,http://127.0.0.1:5173,https://thread-hub-community-feed--nishusinghrajpu.replit.dev",
 ).split(",")
+
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://.*\.vercel\.app$",
+]
 
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",

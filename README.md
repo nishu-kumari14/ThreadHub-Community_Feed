@@ -2,8 +2,6 @@
 
 A full-stack Django + React application featuring threaded discussions and a real-time karma-based leaderboard.
 
-**Live Demo**: https://thread-hub-community-feed--nishusinghrajpu.replit.dev/
-
 ## Overview
 Full-stack application implementing a threaded community feed with karma-based leaderboard (last 24 hours) using Django/DRF + React/Vite/Tailwind.
 
@@ -21,6 +19,19 @@ Full-stack application implementing a threaded community feed with karma-based l
 - ✅ CORS_ALLOW_ALL_ORIGINS security hardened (specific origins only)
 - ✅ Missing root_view function definition added
 - ✅ Error handling improvements (try-catch throughout app)
+
+## Deploy to Vercel
+
+1. Push this repo to GitHub.
+2. In Vercel, click New Project → Import your repository.
+3. Set the Root Directory to the repository root.
+4. Add environment variables:
+	- `SECRET_KEY`
+	- `DEBUG=False`
+	- `ALLOWED_HOSTS=.vercel.app`
+	- `CORS_ALLOWED_ORIGINS=https://<your-app>.vercel.app`
+	- `DATABASE_URL` (required for persistent storage)
+5. Deploy.
 
 ## Backend (Django)
 
