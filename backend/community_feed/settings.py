@@ -3,11 +3,13 @@ import os
 from dotenv import load_dotenv
 import dj_database_url
 
-# Only load .env file in development (when .env exists)
-if os.path.exists(os.path.join(os.path.dirname(__file__), '../../.env')):
-    load_dotenv()
-
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Only load .env file in local development (never on Vercel)
+if not os.getenv("VERCEL"):
+    env_path = BASE_DIR / ".env"
+    if env_path.exists():
+        load_dotenv(env_path)
 
 SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-key-change-in-production")
 DEBUG = os.getenv("DEBUG", "True") == "True"
@@ -63,16 +65,26 @@ WSGI_APPLICATION = "community_feed.wsgi.application"
 ASGI_APPLICATION = "community_feed.asgi.application"
 
 # Database configuration - support both SQLite for development and PostgreSQL for production
-if os.getenv("DATABASE_URL"):
-    # Use PostgreSQL on Vercel or other platforms
+db_url = (
+    os.getenv("DATABASE_URL")
+    or os.getenv("POSTGRES_URL")
+    or os.getenv("POSTGRES_PRISMA_URL")
+    or os.getenv("POSTGRES_URL_NON_POOLING")
+)
+
+if db_url:
     DATABASES = {
         "default": dj_database_url.config(
-            default=os.getenv("DATABASE_URL"),
+            default=db_url,
             conn_max_age=600,
             conn_health_checks=True,
         )
     }
 else:
+    if os.getenv("VERCEL"):
+        raise RuntimeError(
+            "DATABASE_URL is not set on Vercel. Configure it in Project Settings → Environment Variables."
+        )
     # Use SQLite for development
     DATABASES = {
         "default": {
