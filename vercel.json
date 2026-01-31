@@ -1,7 +1,7 @@
 {
   "buildCommand": "bash build.sh",
   "outputDirectory": "frontend/dist",
-  "installCommand": "pip install -r requirements.txt",
+  "installCommand": "uv pip install -r requirements.txt",
   "devCommand": "cd frontend && npm run dev",
   "framework": null,
   "rewrites": [
