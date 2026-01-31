@@ -3,7 +3,6 @@
   "outputDirectory": "frontend/dist",
   "devCommand": "cd frontend && npm run dev",
   "framework": null,
-  "python": "3.12",
   "env": {
     "PYTHONUNBUFFERED": "1"
   },
