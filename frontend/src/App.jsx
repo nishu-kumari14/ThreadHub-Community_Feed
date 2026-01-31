@@ -68,7 +68,14 @@ export default function App() {
       setNewUser("");
     } catch (error) {
       console.error("Failed to create user:", error);
-      alert("Failed to create user. Check console for details.");
+      let message = "Failed to create user. Check console for details.";
+      if (
+        error?.message?.includes("username") &&
+        error?.message?.toLowerCase().includes("already exists")
+      ) {
+        message = "This username already exists. Try another username.";
+      }
+      alert(message);
     }
   };
 
