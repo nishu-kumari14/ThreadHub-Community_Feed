@@ -7,7 +7,7 @@ Full-stack application implementing a threaded community feed with karma-based l
 
 ### Key Features
 - **Threaded Comments**: Nested reply system like Reddit
-- **Karma System**: +5 karma for comments on your posts, +5 for post likes, +1 for comment likes
+- **Karma System**: +5 for post likes, +1 for comment likes
 - **Dynamic Leaderboard**: Top 5 users based on 24-hour karma
 - **Full Error Handling**: Comprehensive error management throughout
 - **CORS Support**: Proper cross-origin configuration (security hardened)
@@ -67,7 +67,6 @@ VITE_API_BASE=http://localhost:8000/api
 - Create users via the top-right form.
 - Select a user to post, comment, or like.
 - Likes grant karma to the post/comment author.
-- Comments on your posts grant you +5 karma.
 - Leaderboard shows last 24 hours only.
 
 ## Notes

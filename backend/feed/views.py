@@ -85,16 +85,7 @@ class CommentCreateView(generics.CreateAPIView):
     serializer_class = CommentCreateSerializer
 
     def perform_create(self, serializer):
-        comment = serializer.save()
-        # Award karma to post author for receiving a comment (5 karma)
-        post = comment.post
-        KarmaEvent.objects.create(
-            recipient=post.author,
-            actor=comment.author,
-            post=post,
-            comment=comment,
-            value=5,
-        )
+        serializer.save()
 
 
 class PostLikeView(APIView):
