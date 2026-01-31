@@ -10,6 +10,14 @@ echo "=== Node version: $(node --version) ==="
 echo "=== npm version: $(npm --version) ==="
 echo "=== Python version: $(python --version) ==="
 
+python - <<'PY'
+import sys
+if sys.version_info < (3, 10):
+  raise SystemExit(
+    "Python 3.10+ is required. Set Vercel Project Settings → Python Version to 3.12."
+  )
+PY
+
 echo ""
 echo "=== Installing Python dependencies ==="
 export UV_LINK_MODE=copy
