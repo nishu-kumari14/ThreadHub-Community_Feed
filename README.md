@@ -25,13 +25,14 @@ Full-stack application implementing a threaded community feed with karma-based l
 1. Push this repo to GitHub.
 2. In Vercel, click New Project → Import your repository.
 3. Set the Root Directory to the repository root.
-4. Add environment variables:
+4. (Optional) Create a Vercel Postgres database and copy the connection string.
+5. Add environment variables:
 	- `SECRET_KEY`
 	- `DEBUG=False`
 	- `ALLOWED_HOSTS=.vercel.app`
 	- `CORS_ALLOWED_ORIGINS=https://<your-app>.vercel.app`
-	- `DATABASE_URL` (required for persistent storage)
-5. Deploy.
+	- `DATABASE_URL` (Vercel Postgres connection string)
+6. Deploy.
 
 ## Backend (Django)
 
