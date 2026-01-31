@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+import dj_database_url
 
 load_dotenv()
 
@@ -61,12 +62,12 @@ ASGI_APPLICATION = "community_feed.asgi.application"
 
 # Database configuration - support both SQLite for development and PostgreSQL for production
 if os.getenv("DATABASE_URL"):
-    # Use PostgreSQL on Railway
-    import dj_database_url
+    # Use PostgreSQL on Vercel or other platforms
     DATABASES = {
         "default": dj_database_url.config(
             default=os.getenv("DATABASE_URL"),
-            conn_max_age=600
+            conn_max_age=600,
+            conn_health_checks=True,
         )
     }
 else:
